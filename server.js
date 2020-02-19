@@ -24,6 +24,13 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 // API Routes
+app.get("/api/post/list",(req,res)=>{
+	PostModel.find((msg,data)=>{
+		if(msg)res.send({success: false, msg});
+		res.send({success: true, data});
+	});
+})
+
 app.post("/api/post/new",(req,res)=>{
 	let payload = {
 		title: req.body.title,
@@ -37,6 +44,25 @@ app.post("/api/post/new",(req,res)=>{
 		res.send({success: true, data});
 	});
 })
+
+app.post("/api/post/update",(req,res)=>{
+	let id = req.body._id;
+	let payload = req.body;
+	PostModel.findByIdAndUpdate(id, payload, (msg,data)=>{
+		if(msg)res.send({success: false, msg});
+		res.send({success: true, data});
+	});
+})
+
+app.post("/api/post/remove",(req,res)=>{
+	let id = req.body._id;
+	PostModel.findById(id).remove((msg,data)=>{
+		if(msg)res.send({success: false, msg});
+		res.send({success: true, data});
+	});
+})
+
+
 
 app.listen(process.env.PORT || 3000,err=>{
 	if(err)console.error(err);
