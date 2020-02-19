@@ -62,9 +62,9 @@ app.post("/api/post/remove",(req,res)=>{
 	});
 })
 
-
-
 app.listen(process.env.PORT || 3000,err=>{
 	if(err)console.error(err);
 	console.log("server has started on port %s", process.env.PORT || 3000);
 })
+
+//https://www.youtube.com/watch?v=Py1j_mzhcpg&list=PLR8vUZDE6IeMxK_2dUMX9l6QrzNvWrtpP&index=29
