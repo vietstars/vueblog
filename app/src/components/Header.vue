@@ -1,7 +1,7 @@
 <template>
   <header>
     <div class="top-left">
-      <img src="../assets/logo.png" alt="blog logo png" class="app-logo">
+      <img src="../assets/logo.png" alt="blog logo png" class="app-logo" />
     </div>
     <div class="top-center">
       <div class="title">
@@ -12,8 +12,8 @@
     </div>
     <div class="top-right">
       <label for="search-bar">
-        <img src="../assets/search-icon.svg" alt="search-icon" class="search-icon">
-        <input type="text" id="search-bar"  name="search-bar" placeholder="search...">
+        <img src="../assets/search-icon.svg" alt="search-icon" class="search-icon" />
+        <input type="text" id="search-bar"  name="search-bar" placeholder="search..." />
       </label>
     </div>
   </header>
@@ -21,7 +21,7 @@
 
 <script>
 export default {
-  name: 'header'
+  name: 'top'
 }
 </script>
 

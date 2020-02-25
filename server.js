@@ -1,10 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 const app = express();
 
 //mongodb
-mongoose.connect("mongodb://localhost:27017/blog",{ userNewUrlParser:true });
+mongoose.connect("mongodb://localhost:27017/blog",{ useUnifiedTopology: true });
 mongoose.connection.on("connected",err=>{
 	if(err)throw err;
 	console.log("Connected to database...");
@@ -20,6 +21,7 @@ const PostSchema = mongoose.Schema({
 const PostModel = mongoose.model("post",PostSchema);
 
 //middleware
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
@@ -46,17 +48,27 @@ app.post("/api/post/new",(req,res)=>{
 })
 
 app.post("/api/post/update",(req,res)=>{
-	let id = req.body._id;
+	let _id = req.body._id;
 	let payload = req.body;
-	PostModel.findByIdAndUpdate(id, payload, (msg,data)=>{
+	PostModel.findByIdAndUpdate({_id}, 
+	{	$set:{
+			title: req.body.title,
+			content: req.body.content,
+			author: req.body.author
+		}
+	}, (msg,data)=>{
 		if(msg)res.send({success: false, msg});
 		res.send({success: true, data});
 	});
 })
 
 app.post("/api/post/remove",(req,res)=>{
-	let id = req.body._id;
-	PostModel.findById(id).remove((msg,data)=>{
+	let _id = req.body._id;
+	// PostModel.findById(id).remove((msg,data)=>{
+	// 	if(msg)res.send({success: false, msg});
+	// 	res.send({success: true, data});
+	// });
+	PostModel.deleteOne({_id},(msg,data)=>{
 		if(msg)res.send({success: false, msg});
 		res.send({success: true, data});
 	});
@@ -66,5 +78,3 @@ app.listen(process.env.PORT || 3000,err=>{
 	if(err)console.error(err);
 	console.log("server has started on port %s", process.env.PORT || 3000);
 })
-
-//https://www.youtube.com/watch?v=Py1j_mzhcpg&list=PLR8vUZDE6IeMxK_2dUMX9l6QrzNvWrtpP&index=29
